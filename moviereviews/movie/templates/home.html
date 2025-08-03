@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Películas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #c9c3c3;
+        }
+        .movie-card img {
+            max-height: 300px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+
+        <h1 class="mb-4 text-center">🎬 Explora Películas</h1>
+        <p class="text-center">Jean Carlo Ardila</p>
+
+        <!-- Botón para volver al home -->
+        <div class="text-center mb-4">
+            <a href="{% url 'home' %}" class="btn btn-secondary">🏠 Volver a inicio</a>
+        </div>
+
+        <!-- Formulario de búsqueda -->
+        <form method="get" class="row g-3 mb-5">
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="searchMovie" placeholder="Buscar película..." value="{{ searchTerm }}">
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+
+        {% if searchTerm %}
+            <p class="text-muted">Resultados para: <strong>{{ searchTerm }}</strong></p>
+        {% endif %}
+
+        <!-- Resultados -->
+        <div class="row">
+            {% for movie in movies %}
+                <div class="col-md-4 mb-4">
+                    <div class="card movie-card shadow-sm h-100">
+                        {% if movie.image %}
+                            <img src="{{ movie.image.url }}" class="card-img-top" alt="Imagen de {{ movie.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ movie.title }}</h5>
+                            <p class="card-text">{{ movie.description }}</p>
+                            {% if movie.url %}
+                                <a href="{{ movie.url }}" class="btn btn-outline-primary btn-sm" target="_blank">Ver más</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-center">No se encontraron películas.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS opcional -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

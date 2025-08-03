@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acerca de</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2d2d2d;
+            margin: 0;
+            padding: 40px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        p {
+            font-size: 18px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Acerca de la Aplicación</h1>
+        <p>Bienvenido a la página de información. Este proyecto corresponde al <strong>Taller 1</strong> realizado con el profesor <strong>Wilmer</strong>.</p>
+        <p>La aplicación está desarrollada en Django y permite buscar, ver y explorar películas. </p>
+        <p><strong>Por Yessetk Rodriguez Quintero</strong></p>
+
+        <a href="{% url 'home' %}">
+
+    </div>
+</body>
+</html>
