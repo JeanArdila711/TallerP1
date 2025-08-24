@@ -2,7 +2,7 @@ import pandas as pd
 import json
 
 # Leer archivo csv
-df = pd.read_csv(r'movies.csv')
+df = pd.read_csv(r'movies_initial.csv')
 
 # Guardar DF como Json
 df.to_json('movies.json', orient='records')

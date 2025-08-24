@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Estadísticas{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <h1 class="mb-5 text-center fw-bold text-primary">📊 Estadísticas de Películas</h1>
+
+    <div class="row g-4">
+        <!-- Gráfica por Año -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-4">Películas por Año</h5>
+                    <img src="data:image/png;base64,{{ graphic_year }}" 
+                         alt="Gráfica de Películas por Año" 
+                         class="img-fluid rounded shadow-sm">
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfica por Género -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-4">Películas por Género</h5>
+                    <img src="data:image/png;base64,{{ graphic_genre }}" 
+                         alt="Gráfica de Películas por Género" 
+                         class="img-fluid rounded shadow-sm">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

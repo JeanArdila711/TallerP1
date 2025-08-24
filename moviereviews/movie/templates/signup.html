@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- Tarjeta -->
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body text-center p-5">
+
+                    {% if email %}
+                        <!-- Mensaje cuando se ingresa el email -->
+                        <h2 class="mb-4 text-success fw-bold">¡Gracias por registrarte! 🎉</h2>
+                        <p class="lead">Hemos agregado <strong>{{ email }}</strong> a nuestra lista de correos.</p>
+                        <p class="text-muted">Pronto recibirás novedades sobre nuestras películas.</p>
+                        <a href="{% url 'home' %}" class="btn btn-outline-primary mt-3">Volver al inicio</a>
+                    {% else %}
+                        <!-- Mensaje si aún no se ha ingresado correo -->
+                        <h2 class="mb-4 text-danger fw-bold">Ups 😅</h2>
+                        <p class="lead">No recibimos ningún correo. Por favor intenta de nuevo.</p>
+                        <a href="{% url 'home' %}" class="btn btn-primary mt-3">Intentar otra vez</a>
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
