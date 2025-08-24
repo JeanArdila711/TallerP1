@@ -13,4 +13,5 @@ with open('movies.json', 'r') as file:
 for i in range(100):
     movie = movies[i]
     print(movie)
-    break
+    break 
+ 
