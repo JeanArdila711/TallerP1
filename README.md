@@ -50,7 +50,7 @@ Una aplicación web desarrollada con **Django** que le permite a los usuarios ex
 
 ---
 
-## 🌱 Flujo de trabajo con ramas
+##  Flujo de trabajo con ramas
 
 El proyecto utiliza dos ramas principales:
 
