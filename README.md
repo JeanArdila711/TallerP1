@@ -1,6 +1,6 @@
 # 🎬 Movie Reviews Project  
 
-Una aplicación web desarrollada con **Django** que le permite a los usuarios explorar películas, consultar detalles como título, género, año y descripción, además de acceder a noticias y estadísticas visuales del mundo del cine.  
+Una aplicación web desarrollada con **Django** que le permite a los usuarios explorar películas, consultar detalles como título, género, año y descripción, estadísticas visuales del mundo del cine y además de acceder a noticias.
 
 ---
 
