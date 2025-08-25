@@ -11,24 +11,127 @@
         <a href="{% url 'home' %}" class="btn btn-secondary">⬅ Volver al inicio</a>
     </div>
 
-    <!-- Noticias -->
+    <!-- Noticias en Cards Horizontales -->
     <div class="row justify-content-center">
         {% for news in newss %} 
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ news.headline }}</h5>
-                    <p class="card-text">{{ news.body }}</p>
-                    <p class="card-text">
-                        <small class="text-muted">{{ news.date }}</small>
-                    </p>
+        <div class="col-12 col-lg-10 col-xl-8 mb-4">
+            <div class="card shadow-sm news-card">
+                <div class="row g-0">
+                    <!-- Imagen placeholder o icono -->
+                    <div class="col-md-3 d-flex align-items-center justify-content-center news-image-section">
+                        <div class="news-icon">
+                            📰
+                        </div>
+                    </div>
+                    <!-- Contenido -->
+                    <div class="col-md-9">
+                        <div class="card-body h-100 d-flex flex-column">
+                            <div>
+                                <h5 class="card-title news-headline">{{ news.headline }}</h5>
+                                <div class="news-content">
+                                    <p class="card-text">{{ news.body }}</p>
+                                </div>
+                            </div>
+                            <div class="mt-auto d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i> {{ news.date }}
+                                </small>
+                                <span class="badge bg-primary">Noticia</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         {% empty %}
-        <p class="text-center">No hay noticias disponibles.</p>
+        <div class="col-12">
+            <div class="alert alert-info text-center" role="alert">
+                <h4 class="alert-heading">📭 No hay noticias</h4>
+                <p>No hay noticias disponibles en este momento.</p>
+            </div>
+        </div>
         {% endfor %}
     </div>
 
 </div>
+
+<style>
+.news-card {
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    overflow: hidden;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.news-image-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 150px;
+    position: relative;
+}
+
+.news-icon {
+    font-size: 3rem;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.news-headline {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+
+.news-content {
+    flex: 1;
+}
+
+.card-text {
+    color: #6c757d;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .news-image-section {
+        min-height: 100px;
+        text-align: center;
+    }
+    
+    .news-icon {
+        font-size: 2rem;
+    }
+    
+    .news-headline {
+        font-size: 1.1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .row.g-0 {
+        flex-direction: column;
+    }
+    
+    .news-image-section {
+        min-height: 80px;
+    }
+}
+</style>
+
 {% endblock content %}

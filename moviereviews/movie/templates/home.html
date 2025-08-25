@@ -2,52 +2,62 @@
 {% block title %}Películas{% endblock %}
 
 {% block content %}
-<div class="container py-5">
+<div class="container py-4">
 
-    <h1 class="mb-4 text-center">Explorar Películas</h1>
-    <p class="text-center">Jean Carlo Ardila</p>
+    <h1 class="mb-3 text-center">Explorar Películas</h1>
+    <p class="text-center mb-3">Jean Carlo Ardila</p>
 
     <!-- Botón para volver al home -->
-    <div class="text-center mb-4">
-        <a href="{% url 'home' %}" class="btn btn-secondary">Volver al inicio</a>
+    <div class="text-center mb-3">
+        <a href="{% url 'home' %}" class="btn btn-secondary btn-sm">Volver al inicio</a>
     </div>
 
     <!-- Formulario de búsqueda -->
-    <form method="get" class="row g-3 mb-5">
+    <form method="get" class="row g-2 mb-4">
         <div class="col-md-10">
-            <input type="text" class="form-control" name="searchMovie" placeholder="Buscar película..." value="{{ searchTerm }}">
+            <input type="text" class="form-control form-control-sm" name="searchMovie" placeholder="Buscar película..." value="{{ searchTerm }}">
         </div>
         <div class="col-md-2 d-grid">
-            <button type="submit" class="btn btn-primary">Buscar</button>
+            <button type="submit" class="btn btn-primary btn-sm">Buscar</button>
         </div>
     </form>
 
     {% if searchTerm %}
-        <p class="text-muted">Resultados para: <strong>{{ searchTerm }}</strong></p>
+        <p class="text-muted small">Resultados para: <strong>{{ searchTerm }}</strong></p>
     {% endif %}
 
-    <!-- Resultados -->
-    <div class="row">
+    <!-- Resultados - Cards optimizadas -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
         {% for movie in movies %}
-            <div class="col-md-4 mb-4">
-                <div class="card movie-card shadow-sm h-100">
+            <div class="col">
+                <div class="card movie-card shadow-sm h-100 improved-card">
                     {% if movie.image %}
-                        <img src="{{ movie.image.url }}" class="card-img-top" alt="Imagen de {{ movie.title }}">
+                        <img src="{{ movie.image.url }}" class="card-img-top movie-img" alt="Imagen de {{ movie.title }}">
                     {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ movie.title }}</h5>
+                    <div class="card-body p-3">
+                        <h5 class="card-title mb-2" title="{{ movie.title }}">{{ movie.title }}</h5>
 
                         <!-- Nuevos atributos -->
-                        <p><strong>Género:</strong> {{ movie.genre }}</p>
-                        <p><strong>Año:</strong> {{ movie.year }}</p>
+                        <div class="movie-info mb-2">
+                            <span class="badge bg-primary me-2">{{ movie.genre }}</span>
+                            <span class="badge bg-secondary">{{ movie.year }}</span>
+                        </div>
 
-                        <!-- Descripción -->
-                        <p class="card-text">{{ movie.description }}</p>
+                        <!-- Descripción con botón leer más -->
+                        <div class="description-container">
+                            <p class="card-text description-short">{{ movie.description|truncatewords:12 }}</p>
+                            <p class="card-text description-full d-none">{{ movie.description }}</p>
+                            {% if movie.description|wordcount > 12 %}
+                                <button class="btn btn-link btn-sm p-0 read-more-btn" onclick="toggleDescription(this)">Leer más</button>
+                            {% endif %}
+                        </div>
 
                         <!-- Enlace -->
-                        {% if movie.url %}
-                            <a href="{{ movie.url }}" class="btn btn-outline-primary btn-sm" target="_blank">Ver más</a>
-                        {% endif %}
+                        <div class="mt-auto">
+                            {% if movie.url %}
+                                <a href="{{ movie.url }}" class="btn btn-outline-primary btn-sm w-100 mt-2" target="_blank">Ver película</a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,16 +66,114 @@
         {% endfor %}
     </div>
 </div>
-<hr class="my-5">
 
-<h2 class="text-center mb-3">Join our mailing list</h2>
+<hr class="my-4">
 
-<form action="{% url 'signup' %}" method="get">
+<h3 class="text-center mb-3">Join our mailing list</h3>
+<form action="{% url 'signup' %}" method="get" class="container">
     <div class="mb-3">
         <label for="email" class="form-label">Enter your email: </label>
         <input type="email" class="form-control" name="email" />
     </div>
     <button type="submit" class="btn btn-primary">Sign Up</button>
 </form>
+
+<style>
+.improved-card {
+    min-height: 420px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 10px;
+}
+
+.improved-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.movie-img {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    line-height: 1.3;
+}
+
+.movie-info {
+    margin-bottom: 12px;
+}
+
+.movie-info .badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+}
+
+.description-container {
+    flex: 1;
+    min-height: 80px;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #6c757d;
+    margin-bottom: 8px;
+}
+
+.read-more-btn {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.read-more-btn:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .movie-img {
+        height: 180px;
+    }
+    .improved-card {
+        min-height: 380px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .movie-img {
+        height: 220px;
+    }
+    .improved-card {
+        min-height: 450px;
+    }
+}
+</style>
+
+<script>
+function toggleDescription(button) {
+    const container = button.closest('.description-container');
+    const shortDesc = container.querySelector('.description-short');
+    const fullDesc = container.querySelector('.description-full');
+    
+    if (shortDesc.classList.contains('d-none')) {
+        // Mostrar descripción corta
+        shortDesc.classList.remove('d-none');
+        fullDesc.classList.add('d-none');
+        button.textContent = 'Leer más';
+    } else {
+        // Mostrar descripción completa
+        shortDesc.classList.add('d-none');
+        fullDesc.classList.remove('d-none');
+        button.textContent = 'Leer menos';
+    }
+}
+</script>
 
 {% endblock content %}

@@ -31,9 +31,7 @@ def statistics_view(request):
     matplotlib.use("Agg")
     all_movies = Movie.objects.all()
 
-    # ---------------------------
     # 1. Películas por año
-    # ---------------------------
     movies_counts_by_year = {}
     for movie in all_movies:
         year = movie.year if movie.year else "None"
@@ -54,9 +52,7 @@ def statistics_view(request):
     buffer1.close()
     plt.close()
 
-    # ---------------------------
     # 2. Películas por género
-    # ---------------------------
     raw_genres = Movie.objects.values_list("genre", flat=True)
     first_genres = []
     for g in raw_genres:
@@ -89,9 +85,7 @@ def statistics_view(request):
     buffer2.close()
     plt.close(fig)
 
-    # ---------------------------
     # Renderizar ambas gráficas
-    # ---------------------------
     return render(
         request,
         "statistics.html",
