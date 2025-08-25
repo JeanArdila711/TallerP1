@@ -39,8 +39,6 @@ Una aplicación web desarrollada con **Django** que le permite a los usuarios ex
    git clone https://github.com/JeanArdila711/TallerP1
 2. Crear un entorno virtual:
     python -m venv env
-    2.1 Activar el entorno virtual:
-        .\env\Scripts\activate
 3. Instalar depedencias:
     pip install -r requirements.txt
 4. Aplicar migraciones:
@@ -49,7 +47,17 @@ Una aplicación web desarrollada con **Django** que le permite a los usuarios ex
     python manage.py runserver
 6. Acceder en el navegador:     
     http://127.0.0.1:8000
-    
+
+---
+
+## 🌱 Flujo de trabajo con ramas
+
+El proyecto utiliza dos ramas principales:
+
+- **main** → rama estable con el código en producción.  
+- **development** → rama de desarrollo donde se integran nuevas características antes de pasar a `main`.  
+
+---
 
 ## 📌 Autor
 
