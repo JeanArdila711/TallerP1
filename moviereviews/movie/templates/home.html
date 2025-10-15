@@ -22,6 +22,11 @@
         </div>
     </form>
 
+    <!-- Botón de Recomendaciones -->
+    <div class="text-center mb-4">
+        <a href="{% url 'recommend' %}" class="btn btn-success btn-sm">Ir a Recomendaciones</a>
+    </div>
+
     {% if searchTerm %}
         <p class="text-muted small">Resultados para: <strong>{{ searchTerm }}</strong></p>
     {% endif %}

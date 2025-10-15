@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Recomendación de Películas</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f2f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.1);
+            width: 500px;
+            text-align: center;
+        }
+        h1 {
+            color: #222;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 25px;
+            text-align: center;
+        }
+        img {
+            max-width: 250px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Botón elegante de volver */
+        .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #6c757d, #495057);
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+            background: linear-gradient(90deg, #495057, #343a40);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Botón elegante de volver al menú principal -->
+        <a href="{% url 'home' %}" class="btn-back">← Volver al Menú Principal</a>
+
+        <h1>🎬 Recomendador de Películas</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="prompt" placeholder="Describe una película o tema..." required>
+            <br>
+            <button type="submit">Buscar</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if best_movie %}
+        <div class="result">
+            <h2>🎯 Recomendación:</h2>
+            <h3>{{ best_movie.title }}</h3>
+            <img src="{{ best_movie.image.url }}" alt="{{ best_movie.title }}">
+            <p>{{ best_movie.description }}</p>
+            <p><b>Similitud:</b> {{ similarity }}</p>
+        </div>
+        {% elif prompt %}
+        <p>No se encontró ninguna recomendación.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

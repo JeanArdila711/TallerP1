@@ -6,6 +6,11 @@ import matplotlib
 import io, base64, re
 import urllib, base64
 from collections import Counter
+import os
+import numpy as np
+from dotenv import load_dotenv
+from openai import OpenAI
+from movie.models import Movie
 
 # Create your views here.
 
@@ -95,3 +100,51 @@ def statistics_view(request):
 def signup(request):
     email = request.GET.get('email')
     return render(request, 'signup.html', {'email':email})
+
+
+# Cargar la API key
+load_dotenv(r'C:\Users\jeanc\OneDrive\Documentos\GitHub\moviereviewsproject\openAI.env')
+client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
+
+def cosine_similarity(a, b):
+    """Calcula la similitud de coseno entre dos vectores"""
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+def recommend_movie(request):
+    context = {}
+
+    # Cargar dotenv y crear cliente solo cuando se necesita
+    load_dotenv(r"C:\Users\jeanc\OneDrive\Documentos\GitHub\moviereviewsproject\moviereviews\openAI.env")
+    client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
+
+    if request.method == "POST":
+        prompt = request.POST.get("prompt", "").strip()
+        if prompt:
+            try:
+                # Generar embedding del prompt
+                response = client.embeddings.create(
+                    input=[prompt],
+                    model="text-embedding-3-small"
+                )
+                prompt_emb = np.array(response.data[0].embedding, dtype=np.float32)
+
+                # Buscar la película más similar
+                best_movie = None
+                max_similarity = -1
+
+                for movie in Movie.objects.all():
+                    movie_emb = np.frombuffer(movie.emb, dtype=np.float32)
+                    similarity = cosine_similarity(prompt_emb, movie_emb)
+
+                    if similarity > max_similarity:
+                        max_similarity = similarity
+                        best_movie = movie
+
+                context["best_movie"] = best_movie
+                context["similarity"] = round(float(max_similarity), 4)
+                context["prompt"] = prompt
+
+            except Exception as e:
+                context["error"] = f"Ocurrió un error: {e}"
+
+    return render(request, "movie/recommendation.html", context)
